@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: 'kumi-db'
+    environment:
+      POSTGRES_DB: 'kumi'
+      POSTGRES_USER: 'kumi'
+      POSTGRES_PASSWORD: 'Today123'
+      POSTGRES_RANDOM_ROOT_PASSWORD: 'yes' 
+      TZ: 'UTC-6'
+    ports:
+      - 8973:5432
