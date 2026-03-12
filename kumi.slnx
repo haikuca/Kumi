@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="Kumi.API/Kumi.API.csproj" />
   <Project Path="Kumi.Application/Kumi.Application.csproj" />
+  <Project Path="Kumi.Domain/Kumi.Domain.csproj" />
   <Project Path="Kumi.LLM/Kumi.LLM.csproj" />
+  <Project Path="Kumi.Persistence/Kumi.Persistence.csproj" />
 </Solution>
