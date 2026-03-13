@@ -4,4 +4,5 @@
   <Project Path="Kumi.Domain/Kumi.Domain.csproj" />
   <Project Path="Kumi.LLM/Kumi.LLM.csproj" />
   <Project Path="Kumi.Persistence/Kumi.Persistence.csproj" />
+  <Project Path="Kumi.Utils/Kumi.Utils.csproj" />
 </Solution>

@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kumi.API.Controllers
 {
-    public class TestController(ToolsService toolsService) : BaseApiController
+    public class TestController(ChatService chatService) : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult<Tool>> Test()
+        public async Task<ActionResult<string>> Test([FromQuery] string message)
         {
-            return HandleResult(Result<Tool>.Success(toolsService.Save(Tool.NewInstance("foo", Method.POST, "foo", "foo", new List<string>{"foo"}))));
+            return HandleResult(Result<string>.Success(await chatService.Chat(message)));
         }
     }
 }

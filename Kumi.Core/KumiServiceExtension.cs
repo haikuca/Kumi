@@ -15,6 +15,7 @@ public static class KumiServiceExtension
 
         services.AddScoped<IToolRepository, ToolsRepository>();
         services.AddScoped<ToolsService>();
+        services.AddScoped<ChatService>();
 
         return services;
     }
