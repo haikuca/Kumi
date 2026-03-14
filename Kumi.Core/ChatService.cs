@@ -1,15 +1,15 @@
 using System;
-using Kumi.LLM.Integrations;
+using Kumi.Domain;
 using Kumi.LLM.Interfaces;
 
 namespace Kumi.Core;
 
-public class ChatService
+public class ChatService(ILanguageModel llm)
 {
-    public async Task<string> Chat(string message)
+    public async Task<Message> Chat(string message)
     {
-        ILanguageModel model = new Ollama();
-        string resposne = await model.Chat(message);
+        // ILanguageModel model = new Ollama();
+        Message resposne = await llm.Chat(message);
         return resposne;
     }
 }

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Integrations/" />
     <Folder Include="Interfaces/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Kumi.Domain/Kumi.Domain.csproj" />
   </ItemGroup>
 
 </Project>

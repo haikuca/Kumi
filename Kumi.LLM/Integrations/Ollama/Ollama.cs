@@ -1,13 +1,22 @@
 using System;
 using System.Text;
 using System.Text.Json;
+using Kumi.Domain;
 using Kumi.LLM.Interfaces;
 
-namespace Kumi.LLM.Integrations;
+namespace Kumi.LLM.Integrations.Ollama;
 
 public class Ollama : ILanguageModel
 {
-    public async Task<string> Chat(string message)
+
+    private string Model;
+
+    public Ollama(string model)
+    {
+        this.Model = model;
+    }
+
+    public async Task<Message> Chat(string message)
     {
         HttpClient httpClient = new()
         {
@@ -15,19 +24,17 @@ public class Ollama : ILanguageModel
         };
 
         StringContent jsonContent = new(
-            JsonSerializer.Serialize(new
+            JsonSerializer.Serialize(new OllamaRequest
             {
-                model = "qwen3.5",
-                messages = new[]
+                Model = Model,
+                Messages = new[]
                 {
-                    new
+                    new Message
                     {
-                        role = "user",
-                        content = message
+                        Role = "user",
+                        Content = message
                     }
                 },
-                think = false,
-                stream = false
             }),
             Encoding.UTF8,
             "application/json"
@@ -35,6 +42,7 @@ public class Ollama : ILanguageModel
 
         HttpResponseMessage response = await httpClient.PostAsync("chat", jsonContent);
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        return jsonResponse;
+        OllamaResponse t = JsonSerializer.Deserialize<OllamaResponse>(jsonResponse)!;
+        return t!.Message!;
     }
 }
