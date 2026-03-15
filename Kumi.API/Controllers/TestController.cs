@@ -8,6 +8,13 @@ namespace Kumi.API.Controllers
 {
     public class TestController(ChatService chatService) : BaseApiController
     {
+
+        [HttpGet]
+        public async Task<ActionResult<string>> T()
+        {
+            return HandleResult(Result<string>.Success("Running."));
+        }
+
         [HttpPost]
         public async Task<ActionResult<Message>> Test([FromQuery] string message)
         {
