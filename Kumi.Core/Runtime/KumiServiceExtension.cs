@@ -1,4 +1,6 @@
 using System;
+using Kumi.Core.Tools;
+using Kumi.Core.Tools.Interfaces;
 using Kumi.Domain.Tools;
 using Kumi.LLM.Integrations.Ollama;
 using Kumi.LLM.Interfaces;
@@ -18,7 +20,9 @@ public static class KumiServiceExtension
         services.AddScoped<IToolRepository, ToolsRepository>();
         services.AddScoped<ILanguageModel>(model => new Ollama("qwen3.5"));
 
-        services.AddScoped<ToolsService>();
+        services.AddScoped<IToolsQueryService, ToolsService>();
+        services.AddScoped<IToolsCommandService, ToolsService>();
+
         services.AddScoped<ChatService>();
 
         return services;

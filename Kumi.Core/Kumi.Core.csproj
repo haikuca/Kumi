@@ -16,4 +16,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Chat/" />
+    <Folder Include="Config/" />
+  </ItemGroup>
+
 </Project>

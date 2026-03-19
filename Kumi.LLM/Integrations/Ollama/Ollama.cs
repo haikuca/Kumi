@@ -27,14 +27,14 @@ public class Ollama : ILanguageModel
             JsonSerializer.Serialize(new OllamaRequest
             {
                 Model = Model,
-                Messages = new[]
-                {
+                Messages =
+                [
                     new Message
                     {
                         Role = "user",
                         Content = message
                     }
-                },
+                ],
             }),
             Encoding.UTF8,
             "application/json"
