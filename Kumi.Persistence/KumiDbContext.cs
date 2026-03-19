@@ -5,9 +5,23 @@ namespace Kumi.Persistence;
 
 public class KumiDbContext : DbContext
 {
+
+    public DbSet<Tool> Tools { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql("Host=localhost;Port=8973;Database=kumi;Username=kumi;Password=KumiDb123");
+        
         base.OnConfiguring(optionsBuilder);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Tool>()
+            .Property(x => x.Parameters)
+            .HasColumnType("jsonb");
+            
+        base.OnModelCreating(modelBuilder);
+    }
+
 }

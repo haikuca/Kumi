@@ -9,6 +9,7 @@ public class Tool
     public required Method Method { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
+    
     public required Dictionary<string, Parameter> Parameters { get; set; }
 
     public static Tool NewInstance(string url, 
