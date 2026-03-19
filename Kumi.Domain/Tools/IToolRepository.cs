@@ -4,9 +4,9 @@ namespace Kumi.Domain.Tools;
 
 public interface IToolRepository
 {
-    Tool? FindById(Guid toolId);
-    List<Tool> GetAll();
-    Tool Add(Tool tool);
-    Tool Update(Tool tool);
-    void Delete(Tool tool);
+    Task<Tool?> FindById(Guid toolId);
+    Task<List<Tool>> GetAll();
+    Task<Tool> AddAsync(Tool tool);
+    Task<Tool> UpdateAsync(Tool tool);
+    Task DeleteAsync(Tool tool);
 }

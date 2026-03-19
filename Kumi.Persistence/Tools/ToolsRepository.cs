@@ -1,34 +1,38 @@
 using System;
 using Kumi.Domain.Tools;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kumi.Persistence.Tools;
 
 public class ToolsRepository(KumiDbContext kumiDbContext) : IToolRepository
 {
-    public Tool Add(Tool tool)
+    public async Task<Tool> AddAsync(Tool tool)
     {
-        kumiDbContext.Add(tool);
-        kumiDbContext.SaveChanges();
+        kumiDbContext.Set<Tool>().Add(tool);
+        await kumiDbContext.SaveChangesAsync();
         return tool;
     }
 
-    public void Delete(Tool tool)
+    public async Task DeleteAsync(Tool tool)
     {
-        throw new NotImplementedException();
+        kumiDbContext.Set<Tool>().Remove(tool);
+        await kumiDbContext.SaveChangesAsync();
     }
 
-    public Tool? FindById(Guid toolId)
+    public async Task<Tool?> FindById(Guid toolId)
     {
-        throw new NotImplementedException();
+        return await kumiDbContext.Set<Tool>().FindAsync(toolId);
     }
 
-    public List<Tool> GetAll()
+    public async Task<List<Tool>> GetAll()
     {
-        throw new NotImplementedException();
+        return await kumiDbContext.Set<Tool>().ToListAsync();
     }
 
-    public Tool Update(Tool tool)
+    public async Task<Tool> UpdateAsync(Tool tool)
     {
-        throw new NotImplementedException();
+        kumiDbContext.Update(tool);
+        await kumiDbContext.SaveChangesAsync();
+        return tool;
     }
 }

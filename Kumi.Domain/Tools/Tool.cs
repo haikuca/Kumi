@@ -9,9 +9,13 @@ public class Tool
     public required Method Method { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public required List<string> Parameters { get; set; }
+    public required Dictionary<string, Parameter> Parameters { get; set; }
 
-    public static Tool NewInstance(string url, Method method, string name, string description, List<string> parameters) => new()
+    public static Tool NewInstance(string url, 
+                                   Method method, 
+                                   string name, 
+                                   string description, 
+                                   Dictionary<string, Parameter> parameters) => new()
     {
         ToolId = Guid.NewGuid(),
         Url = url,

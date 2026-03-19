@@ -1,10 +1,11 @@
 using System;
+using Kumi.Core.Tools.Interfaces;
 using Kumi.Domain;
 using Kumi.LLM.Interfaces;
 
 namespace Kumi.Core;
 
-public class ChatService(ILanguageModel llm)
+public class ChatService(ILanguageModel llm, IToolsQueryService toolsQueryService)
 {
     public async Task<Message> Chat(string message)
     {
