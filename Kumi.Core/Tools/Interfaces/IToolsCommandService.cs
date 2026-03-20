@@ -5,7 +5,7 @@ namespace Kumi.Core.Tools.Interfaces;
 
 public interface IToolsCommandService
 {
-    public Tool AddTool(Tool tool);
-    public Tool UpdateTool(Tool tool);
-    public void DeleteTool(Tool tool);
+    public Task<Tool> AddTool(Tool tool);
+    public Task<Tool> UpdateTool(Tool tool);
+    public Task DeleteTool(Tool tool);
 }

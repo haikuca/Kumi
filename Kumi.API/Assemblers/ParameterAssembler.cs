@@ -10,20 +10,20 @@ public class ParameterAssembler
     {
        return new ParameterDto
        {
-          Type = entity.Type;
-          Description = entity.Description;
-          Required = entity.Required;
-       }
+            Type = entity.Type,
+            Description = entity.Description,
+            Required = entity.Required
+       };
     }
 
     public Parameter Disassemble(ParameterDto dto)
     {
         return new Parameter
         {
-            Type = dto.Type;
-            Description = dto.Description;
-            Required = dto.Required;
-        }
+            Type = dto.Type,
+            Description = dto.Description,
+            Required = dto.Required
+        };
     }
 
 }

@@ -5,6 +5,6 @@ namespace Kumi.Core.Tools.Interfaces;
 
 public interface IToolsQueryService
 {
-    public List<Tool> ListAllTools();
-    public Tool? FindTool(Guid toolId);
+    public Task<List<Tool>> ListAllTools();
+    public Task<Tool?> FindTool(Guid toolId);
 }

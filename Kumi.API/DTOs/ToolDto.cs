@@ -9,5 +9,5 @@ public class ToolDto
     public required string Method { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public required string Dictionary<string, ParameterDto> Parameters { get; set; }
+    public required Dictionary<string, ParameterDto> Parameters { get; set; }
 }

@@ -1,3 +1,5 @@
+using Kumi.API.Assemblers;
+using Kumi.API.Services;
 using Kumi.Core;
 using Kumi.Persistence;
 
@@ -11,6 +13,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddKumiRuntime();
 
+builder.Services.AddScoped<ParameterAssembler>();
+builder.Services.AddScoped<ToolAssembler>();
+builder.Services.AddScoped<ToolService>();
 
 var app = builder.Build();
 

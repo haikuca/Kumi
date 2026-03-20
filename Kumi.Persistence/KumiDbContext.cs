@@ -1,5 +1,6 @@
 ﻿using Kumi.Domain.Tools;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Kumi.Persistence;
 
@@ -10,10 +11,18 @@ public class KumiDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=8973;Database=kumi;Username=kumi;Password=KumiDb123");
-        
-        base.OnConfiguring(optionsBuilder);
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(
+            "Host=localhost;Port=8973;Database=kumi;Username=kumi;Password=KumiDb123"
+        );
+
+        dataSourceBuilder.EnableDynamicJson();
+
+        var dataSource = dataSourceBuilder.Build();
+
+        optionsBuilder.UseNpgsql(dataSource);
     }
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

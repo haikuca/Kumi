@@ -7,18 +7,18 @@ namespace Kumi.Core.Tools;
 
 public class ToolsService(IToolRepository repository) : IToolsQueryService, IToolsCommandService
 {
-    public Tool AddTool(Tool tool) =>
-        repository.Add(tool);
+    public async Task<Tool> AddTool(Tool tool) =>
+        await repository.AddAsync(tool);
 
-    public void DeleteTool(Tool tool) =>
-        repository.Delete(tool);
+    public async Task DeleteTool(Tool tool) =>
+        await repository.DeleteAsync(tool);
 
-    public Tool? FindTool(Guid toolId) =>
-        repository.FindById(toolId);
+    public async Task<Tool?> FindTool(Guid toolId) =>
+        await repository.FindById(toolId);
 
-    public List<Tool> ListAllTools() =>
-        repository.GetAll();
+    public async Task<List<Tool>> ListAllTools() =>
+        await repository.GetAll();
 
-    public Tool UpdateTool(Tool tool) =>
-        repository.Update(tool);
+    public async Task<Tool> UpdateTool(Tool tool) =>
+        await repository.UpdateAsync(tool);
 }
