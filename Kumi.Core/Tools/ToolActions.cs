@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Kumi.Core.Tools;
 
-public class ToolsService(IToolRepository repository) : IToolsQueryService, IToolsCommandService
+public class ToolActions(IToolRepository repository) : IToolQueryActions, IToolCommandActions
 {
     public async Task<Tool> AddTool(Tool tool) =>
         await repository.AddAsync(tool);

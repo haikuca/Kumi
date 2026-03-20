@@ -20,8 +20,8 @@ public static class KumiServiceExtension
         services.AddScoped<IToolRepository, ToolsRepository>();
         services.AddScoped<ILanguageModel>(model => new Ollama("qwen3.5"));
 
-        services.AddScoped<IToolsQueryService, ToolsService>();
-        services.AddScoped<IToolsCommandService, ToolsService>();
+        services.AddScoped<IToolQueryActions, ToolActions>();
+        services.AddScoped<IToolCommandActions, ToolActions>();
 
         services.AddScoped<ChatService>();
 

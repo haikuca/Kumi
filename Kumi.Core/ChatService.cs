@@ -5,7 +5,7 @@ using Kumi.LLM.Interfaces;
 
 namespace Kumi.Core;
 
-public class ChatService(ILanguageModel llm, IToolsQueryService toolsQueryService)
+public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
 {
     public async Task<Message> Chat(string message)
     {
