@@ -19,7 +19,7 @@ namespace Kumi.Persistence.Migrations
                 {
                     ToolId = table.Column<Guid>(type: "uuid", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false),
-                    Method = table.Column<int>(type: "integer", nullable: false),
+                    Method = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Parameters = table.Column<Dictionary<string, Parameter>>(type: "jsonb", nullable: false)

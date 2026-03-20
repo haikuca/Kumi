@@ -24,6 +24,13 @@ public class ToolAssembler(ParameterAssembler parameterAssembler)
         };
     }
 
+    public List<ToolDto> AssembleList(List<Tool> entities) 
+    {
+        return entities
+            .Select(entity => Assemble(entity))
+            .ToList();
+    }
+
     public Tool Disassemble(ToolDto dto)
     {
         return Tool.NewInstance(
@@ -37,5 +44,6 @@ public class ToolAssembler(ParameterAssembler parameterAssembler)
             )
         );
     }
+
 
 }

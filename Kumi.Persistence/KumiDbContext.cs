@@ -22,14 +22,16 @@ public class KumiDbContext : DbContext
         optionsBuilder.UseNpgsql(dataSource);
     }
 
-
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Tool>()
             .Property(x => x.Parameters)
             .HasColumnType("jsonb");
-            
+        
+        modelBuilder.Entity<Tool>()
+            .Property(x => x.Method)
+            .HasConversion<string>();
+
         base.OnModelCreating(modelBuilder);
     }
 
