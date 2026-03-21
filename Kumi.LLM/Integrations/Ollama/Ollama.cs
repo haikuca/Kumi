@@ -16,7 +16,7 @@ public class Ollama : ILanguageModel
         this.Model = model;
     }
 
-    public async Task<Message> Chat(string message)
+    public async Task<Message> Chat(List<Message> messages)
     {
         HttpClient httpClient = new()
         {
@@ -32,22 +32,13 @@ public class Ollama : ILanguageModel
         var payload = JsonSerializer.Serialize(new OllamaRequest
         {
             Model = Model,
-            Messages =
-            [
-                new Message
-                {
-                    Role = "user",
-                    Content = message
-                }
-            ],
+            Messages = messages.ToArray()
         }, options);
         StringContent jsonContent = new(payload, Encoding.UTF8, "application/json");
 
-        Console.WriteLine(payload);
 
         HttpResponseMessage response = await httpClient.PostAsync("chat", jsonContent);
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        Console.WriteLine(jsonResponse);
 
         OllamaResponse t = JsonSerializer.Deserialize<OllamaResponse>(jsonResponse, options)!;
         return t!.Message!;
