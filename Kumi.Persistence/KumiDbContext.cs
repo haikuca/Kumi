@@ -11,6 +11,7 @@ public class KumiDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        // TODO: change this
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(
             "Host=localhost;Port=8973;Database=kumi;Username=kumi;Password=KumiDb123"
         );
