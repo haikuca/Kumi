@@ -1,6 +1,6 @@
 using System;
 
-namespace Kumi.Domain;
+namespace Kumi.Domain.Tools;
 
 public class Parameter
 {

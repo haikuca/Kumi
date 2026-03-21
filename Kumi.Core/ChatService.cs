@@ -1,6 +1,6 @@
 using System;
 using Kumi.Core.Tools.Interfaces;
-using Kumi.Domain;
+using Kumi.Domain.Messages;
 using Kumi.LLM.Interfaces;
 
 namespace Kumi.Core;

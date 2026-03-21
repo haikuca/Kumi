@@ -1,6 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
-using Kumi.Domain;
+using Kumi.Domain.Messages;
 
 namespace Kumi.LLM.Integrations.Ollama;
 

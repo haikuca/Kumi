@@ -1,5 +1,5 @@
 using Kumi.Core;
-using Kumi.Domain;
+using Kumi.Domain.Messages;
 using Kumi.Domain.Tools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

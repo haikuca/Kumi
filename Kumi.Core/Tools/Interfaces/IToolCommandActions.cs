@@ -3,7 +3,7 @@ using Kumi.Domain.Tools;
 
 namespace Kumi.Core.Tools.Interfaces;
 
-public interface IToolsCommandService
+public interface IToolCommandActions
 {
     public Task<Tool> AddTool(Tool tool);
     public Task<Tool> UpdateTool(Tool tool);

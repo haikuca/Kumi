@@ -1,5 +1,5 @@
 using System;
-using Kumi.Domain;
+using Kumi.Domain.Messages;
 
 namespace Kumi.LLM.Interfaces;
 

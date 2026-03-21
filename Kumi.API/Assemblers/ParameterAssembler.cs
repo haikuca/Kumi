@@ -1,6 +1,6 @@
 using System;
 using Kumi.API.DTOs;
-using Kumi.Domain;
+using Kumi.Domain.Tools;
 
 namespace Kumi.API.Assemblers;
 

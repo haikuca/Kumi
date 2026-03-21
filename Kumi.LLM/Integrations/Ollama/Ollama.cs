@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 using System.Text.Json;
-using Kumi.Domain;
+using Kumi.Domain.Messages;
 using Kumi.LLM.Interfaces;
 
 namespace Kumi.LLM.Integrations.Ollama;
@@ -23,26 +23,33 @@ public class Ollama : ILanguageModel
             BaseAddress = new Uri("http://localhost:11434/api/")
         };
 
-        StringContent jsonContent = new(
-            JsonSerializer.Serialize(new OllamaRequest
-            {
-                Model = Model,
-                Messages =
-                [
-                    new Message
-                    {
-                        Role = "user",
-                        Content = message
-                    }
-                ],
-            }),
-            Encoding.UTF8,
-            "application/json"
-        );
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true
+        };
+
+        var payload = JsonSerializer.Serialize(new OllamaRequest
+        {
+            Model = Model,
+            Messages =
+            [
+                new Message
+                {
+                    Role = "user",
+                    Content = message
+                }
+            ],
+        }, options);
+        StringContent jsonContent = new(payload, Encoding.UTF8, "application/json");
+
+        Console.WriteLine(payload);
 
         HttpResponseMessage response = await httpClient.PostAsync("chat", jsonContent);
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        OllamaResponse t = JsonSerializer.Deserialize<OllamaResponse>(jsonResponse)!;
+        Console.WriteLine(jsonResponse);
+
+        OllamaResponse t = JsonSerializer.Deserialize<OllamaResponse>(jsonResponse, options)!;
         return t!.Message!;
     }
 }

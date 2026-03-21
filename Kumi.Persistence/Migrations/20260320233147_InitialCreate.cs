@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Kumi.Domain;
+using Kumi.Domain.Tools;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
