@@ -9,13 +9,11 @@ namespace Kumi.Core;
 
 public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
 {
-    private List<Message> Messages = new List<Message>();
-
     public async Task<Message> Chat(string message)
     {
-        Message response = await llm.Chat(MessageHistory.Initialize(message, toolQueryActions).History);
+        var tools = JsonSerializer.Serialize(await toolQueryActions.ListAllTools());
+        Message response = await llm.Chat(new MessageHistory(tools, message).History);
         Console.WriteLine(response.Content);
         return response;
     }
 }
-
