@@ -18,25 +18,26 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
         return response;
     }
 
-    public void ParseResponse(string response)
+    public void ParseResponse(string llnmResponse)
     {
         var wrapped = $"<root>{response}</root>";
-        XElement llmResponse = XElement.Parse(wrapped);
+        XElement element = XElement.Parse(wrapped);
 
-        var pause = llmResponse.Element("pause");
+        var pause = element.Element("pause");
+        var response = element.Element("response").Value;
 
         if (pause != null)
         {
-            MaybeCallTool(llmResponse);
+            MaybeCallTool(element);
         }
     }
 
     public void MaybeCallTool(XElement element)
     {
-        var toolCall = element.Element("call_tool").Value;
+        string rawToolCall = element.Element("call_tool").Value;
         if (toolCall != null) 
         {
-            CallTool(toolCall);
+            CallTool(rawToolCall);
         }
     }
 
