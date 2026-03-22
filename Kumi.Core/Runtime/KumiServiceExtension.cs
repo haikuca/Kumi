@@ -2,6 +2,7 @@ using System;
 using Kumi.Core.Tools;
 using Kumi.Core.Tools.Interfaces;
 using Kumi.Core.Messages;
+using Kumi.Core.Agent;
 using Kumi.Domain.Tools;
 using Kumi.LLM.Integrations.Ollama;
 using Kumi.LLM.Interfaces;
