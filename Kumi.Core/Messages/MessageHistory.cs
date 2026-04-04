@@ -1,7 +1,4 @@
-using System;
-using System.Text.Json;
 using Kumi.Domain.Messages;
-using Kumi.Core.Tools.Interfaces;
 
 namespace Kumi.Core.Messages
 {
@@ -14,6 +11,12 @@ namespace Kumi.Core.Messages
             this.History.Add(new Message{ Role = "system", Content = ReadPrompt() });
             this.History.Add(new Message{ Role = "assistant", Content = tools });
             this.History.Add(new Message{ Role = "user", Content = prompt });
+        }
+
+        public List<Message> AddAssistantMessage(string message)
+        {
+            this.History.Add(new Message{ Role = "assistant", Content = message });
+            return this.History;
         }
 
         private string ReadPrompt()

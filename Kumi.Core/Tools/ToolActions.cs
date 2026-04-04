@@ -1,7 +1,7 @@
 using System;
 using Kumi.Core.Tools.Interfaces;
+using Kumi.Domain.Tools.Interfaces;
 using Kumi.Domain.Tools;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Kumi.Core.Tools;
 
@@ -15,6 +15,11 @@ public class ToolActions(IToolRepository repository) : IToolQueryActions, IToolC
     public async Task<Tool?> FindTool(Guid toolId) 
     {
         return await repository.FindById(toolId);
+    }
+
+    public async Task<Tool?> FindToolByName(string name)
+    {
+        return await repository.FindByName(name);
     }
 
     public async Task<Tool> AddTool(Tool tool)

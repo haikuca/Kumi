@@ -15,12 +15,13 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
     {
         var tools = JsonSerializer.Serialize(await toolQueryActions.ListAllTools());
         Message response = await llm.Chat(new MessageHistory(tools, message).History);
-        ParseResponse(response.Content);
+        await ParseResponse(response.Content);
         return response;
     }
 
-    public void ParseResponse(string llmResponse)
+    public async Task ParseResponse(string llmResponse)
     {
+        Console.WriteLine(llmResponse);
         var wrapped = $"<root>{llmResponse}</root>";
         XElement element = XElement.Parse(wrapped);
 
@@ -29,11 +30,11 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
 
         if (pause != null)
         {
-            MaybeCallTool(element);
+            await MaybeCallTool(element);
         }
     }
 
-    public void MaybeCallTool(XElement element)
+    public async Task MaybeCallTool(XElement element)
     {
         string rawToolCall = element.Element("call_tool").Value;
         if (rawToolCall != null) 
@@ -42,7 +43,7 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
         }
     }
 
-    public void CallTool(string rawToolCall)
+    public async Task CallTool(string rawToolCall)
     {
         Console.WriteLine(rawToolCall);
         CallTool callTool = JsonSerializer.Deserialize<CallTool>(
@@ -52,7 +53,9 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
                 PropertyNameCaseInsensitive = true
             }
         );
-        Console.WriteLine(callTool.Name);
+        string parameters = JsonSerializer.Serialize(callTool.Parameters); 
+        string? response = await ToolInvoker.Invoke(toolQueryActions.FindToolByName(callTool.Name), new StringContent(parameters, Encoding.UTF8, "application/json"));
+        Console.WriteLine(response);
     }
 
 }
