@@ -1,4 +1,6 @@
 using System;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 using Kumi.Core.Tools.Interfaces;
@@ -54,8 +56,7 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
             }
         );
         string parameters = JsonSerializer.Serialize(callTool.Parameters); 
-        string? response = await ToolInvoker.Invoke(toolQueryActions.FindToolByName(callTool.Name), new StringContent(parameters, Encoding.UTF8, "application/json"));
+        string? response = await ToolInvoker.Invoke(await toolQueryActions.FindToolByName(callTool.Name), new StringContent(parameters, Encoding.UTF8, "application/json"));
         Console.WriteLine(response);
     }
-
 }
