@@ -30,7 +30,8 @@ public class ToolInvoker
                 break;
         }
 
-        return await response.Content.ReadAsStringAsync();
+        string? jsonResponse = await response.Content.ReadAsStringAsync();
+        return $"<tool_response name=\"{tool.Name}\">{jsonResponse}</tool_response>";
     }
 
 }

@@ -13,17 +13,20 @@ namespace Kumi.Core.Agent;
 
 public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
 {
+    private MessageHistory messageHistory;
+
     public async Task<Message> Chat(string message)
     {
+        
         var tools = JsonSerializer.Serialize(await toolQueryActions.ListAllTools());
-        Message response = await llm.Chat(new MessageHistory(tools, message).History);
-        await ParseResponse(response.Content);
-        return response;
+        this.messageHistory = new MessageHistory(tools, message);
+        Message response = await llm.Chat(this.messageHistory.History);
+        this.messageHistory.Append(response);
+        return await ParseMessage(response.Content); 
     }
 
-    public async Task ParseResponse(string llmResponse)
+    public async Task<Message> ParseMessage(string llmResponse)
     {
-        Console.WriteLine(llmResponse);
         var wrapped = $"<root>{llmResponse}</root>";
         XElement element = XElement.Parse(wrapped);
 
@@ -32,22 +35,38 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
 
         if (pause != null)
         {
-            await MaybeCallTool(element);
+            string? toolResponse = await MaybeCallTool(element);
+            Console.WriteLine(toolResponse);
+            this.messageHistory.AppendAssistantMessage(toolResponse); 
+            Message newChatResponse = await llm.Chat(this.messageHistory.History);
+            Console.WriteLine(newChatResponse.Content);
+            this.messageHistory.Append(newChatResponse);
+            return await ParseMessage(newChatResponse.Content); 
         }
+        if (response != null) 
+        {
+            return new Message
+            {
+                Role = "assistant",
+                Content = element.Element("response").Value
+            };
+        }
+
+        return null;
     }
 
-    public async Task MaybeCallTool(XElement element)
+    public async Task<string?> MaybeCallTool(XElement element)
     {
         string rawToolCall = element.Element("call_tool").Value;
         if (rawToolCall != null) 
         {
-            CallTool(rawToolCall);
+            return await CallTool(rawToolCall);
         }
+        return null;
     }
 
-    public async Task CallTool(string rawToolCall)
+    public async Task<string> CallTool(string rawToolCall)
     {
-        Console.WriteLine(rawToolCall);
         CallTool callTool = JsonSerializer.Deserialize<CallTool>(
             rawToolCall,
             new JsonSerializerOptions
@@ -57,6 +76,6 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
         );
         string parameters = JsonSerializer.Serialize(callTool.Parameters); 
         string? response = await ToolInvoker.Invoke(await toolQueryActions.FindToolByName(callTool.Name), new StringContent(parameters, Encoding.UTF8, "application/json"));
-        Console.WriteLine(response);
+        return response;
     }
 }

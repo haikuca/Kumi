@@ -13,7 +13,13 @@ namespace Kumi.Core.Messages
             this.History.Add(new Message{ Role = "user", Content = prompt });
         }
 
-        public List<Message> AddAssistantMessage(string message)
+        public List<Message> Append(Message message)
+        {
+            this.History.Add(message);
+            return this.History;
+        }
+
+        public List<Message> AppendAssistantMessage(string message)
         {
             this.History.Add(new Message{ Role = "assistant", Content = message });
             return this.History;

@@ -18,6 +18,7 @@ public class Ollama : ILanguageModel
 
     public async Task<Message> Chat(List<Message> messages)
     {
+        Console.WriteLine("Begin of chat");
         HttpClient httpClient = new()
         {
             BaseAddress = new Uri("http://localhost:11434/api/")
@@ -41,6 +42,8 @@ public class Ollama : ILanguageModel
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
         OllamaResponse t = JsonSerializer.Deserialize<OllamaResponse>(jsonResponse, options)!;
+        Console.WriteLine(t!.Message!.Content);
+        Console.WriteLine("End of chat");
         return t!.Message!;
     }
 }
