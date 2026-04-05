@@ -27,6 +27,7 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
 
     public async Task<Message> ParseMessage(string llmResponse)
     {
+        this.messageHistory.PrintHistory();
         var wrapped = $"<root>{llmResponse}</root>";
         XElement element = XElement.Parse(wrapped);
 
@@ -36,10 +37,8 @@ public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
         if (pause != null)
         {
             string? toolResponse = await MaybeCallTool(element);
-            Console.WriteLine(toolResponse);
-            this.messageHistory.AppendAssistantMessage(toolResponse); 
+            this.messageHistory.AppendUserMessage(toolResponse); 
             Message newChatResponse = await llm.Chat(this.messageHistory.History);
-            Console.WriteLine(newChatResponse.Content);
             this.messageHistory.Append(newChatResponse);
             return await ParseMessage(newChatResponse.Content); 
         }

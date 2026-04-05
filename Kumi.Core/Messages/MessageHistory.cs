@@ -19,10 +19,19 @@ namespace Kumi.Core.Messages
             return this.History;
         }
 
-        public List<Message> AppendAssistantMessage(string message)
+        public List<Message> AppendUserMessage(string message)
         {
-            this.History.Add(new Message{ Role = "assistant", Content = message });
+            this.History.Add(new Message{ Role = "user", Content = message });
             return this.History;
+        }
+        
+        public void PrintHistory() 
+        {
+            for(int i = 1; i < this.History.Count(); i++) 
+            {
+                Message message = this.History[i];
+                Console.WriteLine($"role: {message.Role}\ncontent: {message.Content}\n");
+            }
         }
 
         private string ReadPrompt()
