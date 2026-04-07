@@ -11,7 +11,7 @@ using Kumi.Domain.Tools;
 
 namespace Kumi.Core.Agent;
 
-public class ChatService(ILanguageModel llm, IToolQueryActions toolQueryActions)
+public class Agent(ILanguageModel llm)
 {
     private MessageHistory messageHistory;
 
