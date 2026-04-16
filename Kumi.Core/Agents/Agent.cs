@@ -8,6 +8,7 @@ using Kumi.Domain.Messages;
 using Kumi.LLM.Interfaces;
 using Kumi.Domain.Tools;
 using Kumi.Core.Tools.Interfaces;
+using Kumi.LLM.Integrations.Ollama;
 
 namespace Kumi.Core.Agents;
 
@@ -17,11 +18,12 @@ public class Agent
     private ILanguageModel _llm;
     private IToolQueryActions _toolQueryActions;
 
-    public Agent(IToolQueryActions toolQueryActions, ILanguageModel llm, MessageHistory messageHistory) 
+    public Agent(IToolQueryActions toolQueryActions, MessageHistory messageHistory) 
     {
         this._messageHistory = messageHistory;
-        this._llm = llm;
+        
         this._toolQueryActions = toolQueryActions;
+        this._llm = new Ollama("gemma4:26b");
     }
 
     public async Task<Message> Prompt(string message)
