@@ -1,10 +1,7 @@
-using System;
 using Kumi.Core.Tools;
 using Kumi.Core.Tools.Interfaces;
-using Kumi.Core.Messages;
-using Kumi.Core.Agent;
+using Kumi.Core.Chats;
 using Kumi.Domain.Tools.Interfaces;
-using Kumi.Domain.Tools;
 using Kumi.LLM.Integrations.Ollama;
 using Kumi.LLM.Interfaces;
 using Kumi.Persistence;
@@ -27,7 +24,7 @@ public static class KumiServiceExtension
         services.AddScoped<IToolQueryActions, ToolActions>();
         services.AddScoped<IToolCommandActions, ToolActions>();
 
-        services.AddScoped<ChatService>();
+        services.AddScoped<Chat>();
         //services.AddScoped<MessageHistory>();
 
         return services;

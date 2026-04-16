@@ -6,11 +6,10 @@ namespace Kumi.Core.Messages
     {
         public List<Message> History = new List<Message>();
 
-        public MessageHistory(string tools, string prompt)
+        public MessageHistory(string tools)
         {
             this.History.Add(new Message{ Role = "system", Content = ReadPrompt() });
             this.History.Add(new Message{ Role = "assistant", Content = tools });
-            this.History.Add(new Message{ Role = "user", Content = prompt });
         }
 
         public List<Message> Append(Message message)

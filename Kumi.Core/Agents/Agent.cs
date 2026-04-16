@@ -3,31 +3,38 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
-using Kumi.Core.Tools.Interfaces;
 using Kumi.Core.Messages;
 using Kumi.Domain.Messages;
 using Kumi.LLM.Interfaces;
 using Kumi.Domain.Tools;
+using Kumi.Core.Tools.Interfaces;
 
-namespace Kumi.Core.Agent;
+namespace Kumi.Core.Agents;
 
-public class Agent(ILanguageModel llm)
+public class Agent
 {
-    private MessageHistory messageHistory;
+    private MessageHistory _messageHistory;
+    private ILanguageModel _llm;
+    private IToolQueryActions _toolQueryActions;
 
-    public async Task<Message> Chat(string message)
+    public Agent(IToolQueryActions toolQueryActions, ILanguageModel llm, MessageHistory messageHistory) 
     {
-        
-        var tools = JsonSerializer.Serialize(await toolQueryActions.ListAllTools());
-        this.messageHistory = new MessageHistory(tools, message);
-        Message response = await llm.Chat(this.messageHistory.History);
-        this.messageHistory.Append(response);
-        return await ParseMessage(response.Content); 
+        this._messageHistory = messageHistory;
+        this._llm = llm;
+        this._toolQueryActions = toolQueryActions;
+    }
+
+    public async Task<Message> Prompt(string message)
+    {
+       this._messageHistory.AppendUserMessage(message);
+       Message response = await _llm.Chat(this._messageHistory.History);
+       this._messageHistory.Append(response);
+       return await ParseMessage(response.Content);
     }
 
     public async Task<Message> ParseMessage(string llmResponse)
     {
-        this.messageHistory.PrintHistory();
+        this._messageHistory.PrintHistory();
         var wrapped = $"<root>{llmResponse}</root>";
         XElement element = XElement.Parse(wrapped);
 
@@ -37,9 +44,9 @@ public class Agent(ILanguageModel llm)
         if (pause != null)
         {
             string? toolResponse = await MaybeCallTool(element);
-            this.messageHistory.AppendUserMessage(toolResponse); 
-            Message newChatResponse = await llm.Chat(this.messageHistory.History);
-            this.messageHistory.Append(newChatResponse);
+            this._messageHistory.AppendUserMessage(toolResponse); 
+            Message newChatResponse = await _llm.Chat(this._messageHistory.History);
+            this._messageHistory.Append(newChatResponse);
             return await ParseMessage(newChatResponse.Content); 
         }
         if (response != null) 
@@ -74,7 +81,7 @@ public class Agent(ILanguageModel llm)
             }
         );
         string parameters = JsonSerializer.Serialize(callTool.Parameters); 
-        string? response = await ToolInvoker.Invoke(await toolQueryActions.FindToolByName(callTool.Name), new StringContent(parameters, Encoding.UTF8, "application/json"));
+        string? response = await ToolInvoker.Invoke(await _toolQueryActions.FindToolByName(callTool.Name), new StringContent(parameters, Encoding.UTF8, "application/json"));
         return response;
     }
 }

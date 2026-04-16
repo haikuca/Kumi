@@ -1,7 +1,7 @@
 using System;
 using Kumi.Domain.Tools;
 
-namespace Kumi.Core.Messages;
+namespace Kumi.Core.Agents;
 
 public class ToolInvoker
 {

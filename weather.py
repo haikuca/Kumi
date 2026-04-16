@@ -3,11 +3,6 @@ import json
 
 app = Flask(__name__)
 
-@app.route("/")from flask import Flask, request, jsonify
-import json
-
-app = Flask(__name__)
-
 @app.route("/", methods=["POST"])
 def save_joke():
     if request.method == "POST":
