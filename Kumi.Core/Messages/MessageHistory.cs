@@ -23,6 +23,12 @@ namespace Kumi.Core.Messages
             this.History.Add(new Message{ Role = "user", Content = message });
             return this.History;
         }
+
+        public List<Message> AppendKumiMessage(string message) 
+        {
+            this.History.Add(new Message{ Role = "kumi", Content = message });
+            return this.History;
+        }
         
         public void PrintHistory() 
         {
