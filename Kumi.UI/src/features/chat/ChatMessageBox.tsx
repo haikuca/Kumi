@@ -14,8 +14,9 @@ export default function ChatMessageBox({ chatMessages, pending }: Props) {
       { chatMessages.map((chatMessage: ChatMessage) => (
         chatMessage.type === "PROMPT" 
           ? (<Message message={chatMessage.content}/>)
-          : pending === false ? (<Response response={chatMessage.content}/>) : (<p>Thinking...</p>) 
+          : (<Response response={chatMessage.content}/>)
       )) }
+      {pending && (<p>Loading...</p>)}
     </div>
   )
 }

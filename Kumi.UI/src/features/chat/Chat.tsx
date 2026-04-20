@@ -14,13 +14,14 @@ export default function Chat() {
   }, [messages])
 
   async function sendMessage(msg: string) {
-    await sendPrompt.mutateAsync({
+    const prompt: ChatMessage = {
       type: "PROMPT",
       content: msg
-    } as ChatMessage, {
+    }
+    setMessages([...messages, prompt])
+    await sendPrompt.mutateAsync(prompt, {
       onSuccess: (chatMessages) => {
         setMessages([...messages, ...chatMessages])
-        console.log(messages)
       }
     });
 
