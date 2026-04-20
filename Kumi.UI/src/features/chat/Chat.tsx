@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ChatMessageBox from "./ChatMessageBox";
 import ChatInput from "./ChatInput";
 import { useSendPrompt } from "../../hooks/useChatActions";
@@ -8,10 +8,6 @@ export default function Chat() {
 
   const sendPrompt = useSendPrompt(); 
   const [messages, setMessages] = useState<ChatMessage[]>([])
-
-  useEffect(() => {
-    console.log("messages", messages)
-  }, [messages])
 
   async function sendMessage(msg: string) {
     const prompt: ChatMessage = {

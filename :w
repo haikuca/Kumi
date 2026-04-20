@@ -16,7 +16,7 @@ export default function ChatMessageBox({ chatMessages, pending }: Props) {
           ? (<Message message={chatMessage.content}/>)
           : (<Response response={chatMessage.content}/>)
       )) }
-      { pending && (<p className="text-neutral-500">Thinking...</p>) }
+      { pending && (<p className="text-gray-200">Thinking...</p>) }
     </div>
   )
 }
