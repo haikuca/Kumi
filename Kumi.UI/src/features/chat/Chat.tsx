@@ -25,7 +25,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="bg-neutral-800 h-screen w-full flex items-center justify-center">
+    <div className="h-screen w-full flex items-center justify-center">
       <div className="w-2/3 h-11/12">
         <div className={"w-full h-full " + (messages.length > 0 ? "" : "flex items-center")}>
           <ChatMessageBox chatMessages={messages} pending={sendPrompt.isPending}/>

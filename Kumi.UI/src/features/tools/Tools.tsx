@@ -1,5 +1,11 @@
+import { useTools } from "../../hooks/useToolActions"
+import ToolList from "./ToolList";
+
 export default function Tools() {
+  
+  const { data: tools } = useTools();
+
   return (
-    <p>Tools</p>
+    <ToolList tools={tools} />
   )
 }
