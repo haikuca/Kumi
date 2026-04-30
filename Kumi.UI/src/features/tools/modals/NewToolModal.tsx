@@ -30,7 +30,6 @@ export default function NewToolModal({ closeModal }: Props) {
     })
   }
 
-
   function updateParameterValue(parameter, value, e) {
     parameter[value] = e.target.value;
   }

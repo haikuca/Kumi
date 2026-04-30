@@ -19,5 +19,11 @@ namespace Kumi.API.Controllers
         {
             return HandleResult(await toolService.AddTool(toolDto));
         }
+
+        [HttpDelete("{toolId}")]
+        public async Task<ActionResult<Unit>> DeleteTool(string toolId)
+        {
+            return HandleResult(await toolService.DeleteTool(toolId));
+        }
     }
 }

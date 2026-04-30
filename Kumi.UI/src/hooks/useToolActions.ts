@@ -26,3 +26,18 @@ export function useCreateTool() {
     }
   })
 }
+
+export function useDeleteTool(toolId: string) {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      const response = await agent.delete(`/tools/${toolId}`)
+      return response.data;
+    },
+    onSuccess: async () => {
+      await client.invalidateQueries({
+        queryKey: ['tools']
+      })
+    }
+  })
+}

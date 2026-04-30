@@ -2,7 +2,6 @@ import { useState } from "react"
 import Icon from "../../components/Icon"
 import type { Tool } from "../../lib/types/Tool"
 import DeleteToolModal from "./modals/DeleteToolModal"
-import { useDeleteTool } from "../../hooks/useToolActions"
 
 interface Props {
   tools?: Tool[]
@@ -10,24 +9,12 @@ interface Props {
 
 export default function ToolList({ tools }: Props) {
 
-  const [ selectedTool, setSelectedTool ] = useState<Tool>()
   const [ showDeleteConfirmationModal, setShowDeleteConfirmationModal ] = useState<boolean>(false)
-  const deleteTool = useDeleteTool(selectedTool?.toolId!);
-
-  function selectAndShowDeleteModal(tool: Tool) {
-    setSelectedTool(tool);
-    setShowDeleteConfirmationModal(true);
-  }
-
-  async function deleteSelectedTool() {
-    await deleteTool.mutateAsync()
-    setShowDeleteConfirmationModal(false);
-  }
 
   return (
     <>
       { showDeleteConfirmationModal && (
-        <DeleteToolModal handleDeleteTool={deleteSelectedTool} closeModal={() => setShowDeleteConfirmationModal(false)} />
+        <DeleteToolModal closeModal={() => setShowDeleteConfirmationModal(false)} />
       ) }
       <div className="overflow-x-auto text-white">
         <table className="w-full text-sm text-left text-body">
@@ -51,7 +38,7 @@ export default function ToolList({ tools }: Props) {
                   { tool.description }
                 </td>
                 <td>
-                  <Icon onClick={() => selectAndShowDeleteModal(tool)} width={30} height={30} className="fill-white cursor-pointer"/>
+                  <Icon width={30} height={30} className="fill-white cursor-pointer"/>
                 </td>
               </tr>
             )) }

@@ -26,5 +26,11 @@ namespace Kumi.API.Services
             );
         }
 
+        public async Task<Result<Unit>> DeleteTool(string toolId)
+        {
+            Tool? tool = await toolQueryActions.FindTool(Guid.Parse(toolId));
+            await toolCommandActions.DeleteTool(tool!);
+            return Result<Unit>.Success(Unit.Value);
+        }
     }
 }
