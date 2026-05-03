@@ -11,4 +11,4 @@ def save_joke():
         return jsonify({"message": "Joke successfully saved!"})
 
 if __name__ == "__main__":
-    app.run(port=8764)
+    app.run(host='0.0.0.0', port=8764)
