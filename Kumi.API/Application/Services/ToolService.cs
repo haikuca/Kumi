@@ -1,28 +1,28 @@
 using System;
-using Kumi.API.Assemblers;
-using Kumi.API.DTOs;
+using Kumi.API.Application.Mappings;
+using Kumi.API.Application.Dtos;
 using Kumi.Domain.Tools;
 using Kumi.Core.Tools.Interfaces;
 
-namespace Kumi.API.Services
+namespace Kumi.API.Application.Services
 {
     
     public class ToolService(IToolCommandActions toolCommandActions,
                              IToolQueryActions toolQueryActions,
-                             ToolAssembler toolAssembler)
+                             ToolMapper toolMapper)
     {
         
         public async Task<Result<List<ToolDto>>> GetAllTools()
         {
             return Result<List<ToolDto>>.Success(
-                toolAssembler.AssembleList(await toolQueryActions.ListAllTools())
+                toolMapper.ToDtoList(await toolQueryActions.ListAllTools())
             );
         }
         
         public async Task<Result<ToolDto>> AddTool(ToolDto tool) 
         {
             return Result<ToolDto>.Success(
-                toolAssembler.Assemble(await toolCommandActions.AddTool(toolAssembler.Disassemble(tool)))
+                toolMapper.ToDto(await toolCommandActions.AddTool(toolMapper.ToEntity(tool)))
             );
         }
 

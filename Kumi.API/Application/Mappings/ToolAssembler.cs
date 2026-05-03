@@ -1,13 +1,13 @@
 using System;
-using Kumi.API.DTOs;
+using Kumi.API.Application.Dtos;
 using Kumi.Domain.Tools;
 
-namespace Kumi.API.Assemblers;
+namespace Kumi.API.Application.Mappings;
 
-public class ToolAssembler(ParameterAssembler parameterAssembler)
+public class ToolMapper(ParameterMapper parameterMapper)
 {
   
-    public ToolDto Assemble(Tool entity) 
+    public ToolDto ToDto(Tool entity) 
     {
         return new ToolDto 
         {
@@ -18,19 +18,19 @@ public class ToolAssembler(ParameterAssembler parameterAssembler)
             Description = entity.Description,
             Parameters = entity.Parameters.ToDictionary(
                 x => x.Key,
-                x => parameterAssembler.Assemble(x.Value)
+                x => parameterMapper.ToDto(x.Value)
             )
         };
     }
 
-    public List<ToolDto> AssembleList(List<Tool> entities) 
+    public List<ToolDto> ToDtoList(List<Tool> entities) 
     {
         return entities
-            .Select(entity => Assemble(entity))
+            .Select(entity => ToDto(entity))
             .ToList();
     }
 
-    public Tool Disassemble(ToolDto dto)
+    public Tool ToEntity(ToolDto dto)
     {
         return Tool.NewInstance(
             dto.Url,
@@ -39,7 +39,7 @@ public class ToolAssembler(ParameterAssembler parameterAssembler)
             dto.Description,
             dto.Parameters.ToDictionary(
                 x => x.Key,
-                x => parameterAssembler.Disassemble(x.Value)
+                x => parameterMapper.ToEntity(x.Value)
             )
         );
     }

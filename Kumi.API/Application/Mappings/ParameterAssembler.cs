@@ -1,12 +1,12 @@
 using System;
-using Kumi.API.DTOs;
+using Kumi.API.Application.Dtos;
 using Kumi.Domain.Tools;
 
-namespace Kumi.API.Assemblers;
+namespace Kumi.API.Application.Mappings;
 
-public class ParameterAssembler
+public class ParameterMapper
 {
-    public ParameterDto Assemble(Parameter entity)
+    public ParameterDto ToDto(Parameter entity)
     {
        return new ParameterDto
        {
@@ -16,7 +16,7 @@ public class ParameterAssembler
        };
     }
 
-    public Parameter Disassemble(ParameterDto dto)
+    public Parameter ToEntity(ParameterDto dto)
     {
         return new Parameter
         {

@@ -1,7 +1,6 @@
-using Kumi.API.Assemblers;
-using Kumi.API.Services;
+using Kumi.API.Application.Services;
+using Kumi.API.Application.Mappings;
 using Kumi.Core;
-using Kumi.Persistence;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +13,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddKumiRuntime();
 
-builder.Services.AddScoped<ParameterAssembler>();
-builder.Services.AddScoped<ToolAssembler>();
+builder.Services.AddScoped<ParameterMapper>();
+builder.Services.AddScoped<ToolMapper>();
 builder.Services.AddScoped<ToolService>();
 builder.Services.AddScoped<ChatService>();
 

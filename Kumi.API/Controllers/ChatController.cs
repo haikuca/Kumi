@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Kumi.API.DTOs;
-using Kumi.API.Services;
+using Kumi.API.Application.Dtos;
+using Kumi.API.Application.Services;
 
 namespace Kumi.API.Controllers
 {
