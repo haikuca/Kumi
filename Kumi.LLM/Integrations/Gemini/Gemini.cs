@@ -10,8 +10,14 @@ namespace Kumi.LLM.Integrations.Gemini;
 public class Gemini : ILanguageModel
 {
 
-    private string _geminiUri = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
-    private string _geminiApiToken = ;
+    private string _geminiUri;
+    private string _geminiApiToken;
+
+    public Gemini(string model, string token)
+    {
+        this._geminiUri = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent";
+        this._geminiApiToken = token;
+    }
 
     public async Task<Message> Chat(List<Message> messages)
     {
@@ -25,7 +31,7 @@ public class Gemini : ILanguageModel
         };
         httpClient.DefaultRequestHeaders.Add("x-goog-api-key", _geminiApiToken);
 
-        var optiobns = new JsonSerializerOptions
+        var options = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
@@ -34,16 +40,14 @@ public class Gemini : ILanguageModel
         var payload = JsonSerializer.Serialize(new GeminiRequest
         {
             Contents = geminiMessages
-        }, optiobns);
+        }, options);
 
         StringContent jsonContent = new(payload, Encoding.UTF8, "application/json");
       
         HttpResponseMessage response = await httpClient.PostAsync(_geminiUri, jsonContent);
         var jsonResponse = await response.Content.ReadAsStringAsync();
+        var geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(jsonResponse, options);
 
-        Console.WriteLine(jsonResponse);
-
-
-        throw new NotImplementedException();
+        return geminiMessageMapper.FromResponseToMessage(geminiResponse);
     }
 }

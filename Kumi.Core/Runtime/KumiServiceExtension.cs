@@ -21,7 +21,7 @@ public static class KumiServiceExtension
         services.AddScoped<IToolRepository, ToolRepository>();
         //services.AddScoped<ILanguageModel>(model => new Ollama("gemma4:26b"));
         //services.AddScoped<ILanguageModel>(model => new Ollama("qwen3.5"));
-        services.AddScoped<ILanguageModel,Gemini>();
+        services.AddScoped<ILanguageModel>(model => new Gemini("gemini-3-flash-preview", "AIzaSyDRkAPAikvOeGN0ybV_EEKtwcxMRVX6pUo"));
 
         services.AddScoped<IToolQueryActions, ToolActions>();
         services.AddScoped<IToolCommandActions, ToolActions>();

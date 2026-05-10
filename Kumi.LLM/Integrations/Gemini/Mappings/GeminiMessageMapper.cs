@@ -19,4 +19,13 @@ public class GeminiMessageMapper
            ]
         };
     }
+
+    public Message FromResponseToMessage(GeminiResponse response)
+    {
+        return new Message
+        {
+            Role = "MODEL",
+            Content = response!.Candidates[0].Content.Parts[0].Text
+        };
+    }
 }
